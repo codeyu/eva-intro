@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="images/favicon.png" />
+    <title>新世紀エヴァンゲリオン Blu-ray BOX</title>
+    <style>
+        /* 全局样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+        }
+        
+        body {
+            background-color: #111;
+            color: #f0f0f0;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* 导航栏 */
+        header {
+            background-color: rgba(0, 0, 0, 0.8);
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            top: 0;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid #ff6600;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+        
+        .logo {
+            color: #ff6600;
+            font-size: 24px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 30px;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: #f0f0f0;
+            font-size: 16px;
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+        }
+        
+        .nav-links a:hover {
+            color: #ff6600;
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background-color: #ff6600;
+            bottom: -5px;
+            left: 0;
+            transition: width 0.3s;
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        /* 英雄区域 */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('images/bk.webp') center/cover no-repeat;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #ff6600 0%, #ff0066 100%);
+            opacity: 0.2;
+            z-index: -1;
+        }
+        
+        .hero-content {
+            text-align: center;
+            max-width: 800px;
+        }
+        
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+            animation: fadeInUp 1s ease;
+        }
+        
+        .hero h2 {
+            font-size: 24px;
+            color: #ff6600;
+            margin-bottom: 40px;
+            animation: fadeInUp 1s 0.3s both;
+        }
+        
+        .hero p {
+            font-size: 18px;
+            margin-bottom: 40px;
+            animation: fadeInUp 1s 0.6s both;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: #ff6600;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: 500;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            animation: fadeInUp 1s 0.9s both;
+        }
+        
+        .btn:hover {
+            background-color: #e65c00;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255, 102, 0, 0.3);
+        }
+        
+        /* 产品详情 */
+        section {
+            padding: 80px 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .section-title h2 {
+            font-size: 36px;
+            position: relative;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+        
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            width: 60px;
+            height: 3px;
+            background-color: #ff6600;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        /* 光盘内容 */
+        .discs {
+            padding-top: 100px;
+        }
+        
+        .disc-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+        
+        .disc-card {
+            width: 280px;
+            background-color: rgba(30, 30, 30, 0.8);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+        
+        .disc-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(255, 102, 0, 0.2);
+        }
+        
+        .disc-img {
+            height: 180px;
+            background-color: #2a2a2a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            color: #ff6600;
+            font-weight: bold;
+        }
+        
+        .disc-content {
+            padding: 20px;
+        }
+        
+        .disc-content h3 {
+            margin-bottom: 10px;
+            color: #ff6600;
+        }
+        
+        .disc-content p {
+            font-size: 14px;
+            color: #cccccc;
+        }
+        
+        /* 角色介绍 */
+        .characters {
+            background-color: #0a0a0a;
+        }
+        
+        .character-slider {
+            display: flex;
+            gap: 20px;
+            overflow-x: auto;
+            padding: 20px 0;
+            scroll-snap-type: x mandatory;
+        }
+        
+        .character-slider::-webkit-scrollbar {
+            height: 8px;
+        }
+        
+        .character-slider::-webkit-scrollbar-track {
+            background: #1a1a1a;
+            border-radius: 10px;
+        }
+        
+        .character-slider::-webkit-scrollbar-thumb {
+            background: #ff6600;
+            border-radius: 10px;
+        }
+        
+        .character-card {
+            min-width: 280px;
+            scroll-snap-align: start;
+            background: linear-gradient(145deg, #1e1e1e, #282828);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s;
+        }
+        
+        .character-card:hover {
+            transform: scale(1.05);
+        }
+        
+        .character-img {
+            height: 320px;
+            background-color: #2a2a2a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        
+        .character-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .character-info {
+            padding: 20px;
+        }
+        
+        .character-info h3 {
+            margin-bottom: 10px;
+            color: #ff6600;
+        }
+        
+        .character-info h4 {
+            color: #cccccc;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        
+        .character-info p {
+            font-size: 14px;
+            color: #a0a0a0;
+        }
+        
+        /* 制作人员 */
+        .staff {
+            background-color: #0f0f0f;
+        }
+        
+        .staff-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 20px;
+        }
+        
+        .staff-item {
+            text-align: center;
+            padding: 20px;
+            background-color: rgba(40, 40, 40, 0.7);
+            border-radius: 8px;
+            transition: transform 0.3s, background-color 0.3s;
+        }
+        
+        .staff-item:hover {
+            background-color: rgba(50, 50, 50, 0.9);
+            transform: translateY(-5px);
+        }
+        
+        .staff-item h3 {
+            color: #ff6600;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+        
+        .staff-item p {
+            color: #cccccc;
+            font-size: 14px;
+        }
+        
+        /* 产品信息 */
+        .product-info {
+            background-color: #080808;
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        
+        .info-item {
+            background-color: rgba(30, 30, 30, 0.8);
+            padding: 20px;
+            border-radius: 8px;
+        }
+        
+        .info-item h3 {
+            color: #ff6600;
+            margin-bottom: 15px;
+            font-size: 20px;
+            border-bottom: 1px solid #333;
+            padding-bottom: 10px;
+        }
+        
+        .info-item p {
+            margin-bottom: 10px;
+            color: #cccccc;
+        }
+        
+        .info-item strong {
+            color: #ffffff;
+        }
+        
+        /* 页脚 */
+        footer {
+            background-color: #000;
+            text-align: center;
+            padding: 40px 0;
+            border-top: 1px solid #1a1a1a;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin: 0 15px;
+        }
+        
+        .footer-links a {
+            color: #a0a0a0;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: #ff6600;
+        }
+        
+        .copyright {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        /* 浮动按钮 */
+        .floating-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background-color: #ff6600;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 5px 15px rgba(255, 102, 0, 0.3);
+            cursor: pointer;
+            transition: all 0.3s;
+            z-index: 99;
+        }
+        
+        .floating-btn:hover {
+            transform: scale(1.1);
+        }
+        
+        .floating-btn span {
+            font-size: 24px;
+            color: #fff;
+        }
+        
+        /* 模态框 */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            overflow-y: auto;
+            padding: 50px 0;
+        }
+        
+        .modal-content {
+            background-color: #1a1a1a;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 30px;
+            border-radius: 10px;
+            position: relative;
+        }
+        
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 30px;
+            color: #fff;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        
+        .close-btn:hover {
+            color: #ff6600;
+        }
+        
+        .disc-details h2 {
+            color: #ff6600;
+            margin-bottom: 20px;
+            font-size: 28px;
+        }
+        
+        .disc-details h3 {
+            color: #ff6600;
+            margin: 20px 0 10px;
+            font-size: 20px;
+        }
+        
+        .disc-details ul {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .disc-details li {
+            margin-bottom: 5px;
+        }
+        
+        /* 动画 */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 36px;
+            }
+            
+            .hero h2, .hero p {
+                font-size: 16px;
+            }
+            
+            section {
+                padding: 60px 0;
+            }
+            
+            .disc-container {
+                justify-content: center;
+            }
+            
+            .staff-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <a href="#home">
+                        <img src="images/logo.webp" alt="EVA" style="height: 40px;">
+                    </a>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="#home">ホーム</a></li>
+                    <li><a href="#discs">ディスク内容</a></li>
+                    <li><a href="#characters">キャラクター紹介</a></li>
+                    <li><a href="#staff">スタッフ</a></li>
+                    <li><a href="#info">商品情報</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- 英雄区域 -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>新世紀エヴァンゲリオン</h1>
+            <h2>Blu-ray BOX</h2>
+            <p>『新世紀エヴァンゲリオン』HDリマスターBlu-ray BOXが遂に登場！<br>TVシリーズ、劇場版、特典映像を完全収録した高画質リマスター版。</p>
+            <a href="#discs" class="btn">詳細を見る</a>
+        </div>
+    </section>
+
+    <!-- 光盘内容 -->
+    <section class="discs" id="discs">
+        <div class="container">
+            <div class="section-title">
+                <h2>ディスク内容</h2>
+            </div>
+            <div class="disc-container">
+                <div class="disc-card" onclick="openModal('disc1')">
+                    <div class="disc-img">DISC 1-5</div>
+                    <div class="disc-content">
+                        <h3>TVシリーズ</h3>
+                        <p>『新世紀エヴァンゲリオン』HDリマスター TVシリーズ全26話+ビデオフォーマット版4話</p>
+                    </div>
+                </div>
+                <div class="disc-card" onclick="openModal('disc6')">
+                    <div class="disc-img">DISC 6</div>
+                    <div class="disc-content">
+                        <h3>シト新生</h3>
+                        <p>『新世紀エヴァンゲリオン劇場版 シト新生』HDマスター EVANGELION: DEATH AND REBIRTH</p>
+                    </div>
+                </div>
+                <div class="disc-card" onclick="openModal('disc7')">
+                    <div class="disc-img">DISC 7</div>
+                    <div class="disc-content">
+                        <h3>Air/まごころを、君に</h3>
+                        <p>『新世紀エヴァンゲリオン劇場版 Air/まごころを、君に』HDマスター THE END OF EVANGELION</p>
+                    </div>
+                </div>
+                <div class="disc-card" onclick="openModal('disc8')">
+                    <div class="disc-img">DISC 8</div>
+                    <div class="disc-content">
+                        <h3>REVIVAL OF EVANGELION</h3>
+                        <p>『新世紀エヴァンゲリオン劇場版 DEATH(TRUE)2/Air/まごころを、君に』HDマスター</p>
+                    </div>
+                </div>
+                <div class="disc-card" onclick="openModal('disc9')">
+                    <div class="disc-img">DISC 9</div>
+                    <div class="disc-content">
+                        <h3>映像特典</h3>
+                        <p>各种无字幕版片头曲、片尾曲、图像集、特别宣传片、音乐视频等丰富特典内容</p>
+                    </div>
+                </div>
+                <div class="disc-card" onclick="openModal('disc10')">
+                    <div class="disc-img">DISC 10</div>
+                    <div class="disc-content">
+                        <h3>AR/DB用定尺ラッシュビデオ</h3>
+                        <p>多集未最终剪辑的片段、「EVANGELION: REBIRTH」等珍贵内容</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 角色介绍 -->
+    <section class="characters" id="characters">
+        <div class="container">
+            <div class="section-title">
+                <h2>キャラクター紹介</h2>
+            </div>
+            <div class="character-slider">
+                <div class="character-card">
+                    <div class="character-img">
+                        <img src="/images/01.jpg" alt="碇シンジ">
+                    </div>
+                    <div class="character-info">
+                        <h3>碇シンジ</h3>
+                        <h4>声優：緒方恵美</h4>
+                        <p>第三の適格者、エヴァンゲリオン初号機のパイロット。内向的で自信のない性格だが、エヴァを操縦する中で成長していく。</p>
+                    </div>
+                </div>
+                <div class="character-card">
+                    <div class="character-img">
+                        <img src="/images/02.jpg" alt="綾波レイ">
+                    </div>
+                    <div class="character-info">
+                        <h3>綾波レイ</h3>
+                        <h4>声優：林原めぐみ</h4>
+                        <p>第一の適格者、エヴァンゲリオン零号機のパイロット。無口で感情表現が独特、人間とは本質的に異なる存在。</p>
+                    </div>
+                </div>
+                <div class="character-card">
+                    <div class="character-img">
+                        <img src="/images/03.jpg" alt="惣流・アスカ・ラングレー">
+                    </div>
+                    <div class="character-info">
+                        <h3>惣流・アスカ・ラングレー</h3>
+                        <h4>声優：宮村優子</h4>
+                        <p>第二の適格者、エヴァンゲリオン弐号機のパイロット。プライドが高く自信家、エヴァを操縦することで自己の価値を証明しようとする。</p>
+                    </div>
+                </div>
+                <div class="character-card">
+                    <div class="character-img">
+                        <img src="/images/04.jpg" alt="葛城ミサト">
+                    </div>
+                    <div class="character-info">
+                        <h3>葛城ミサト</h3>
+                        <h4>声優：三石琴乃</h4>
+                        <p>ネルフ戦術作戦部長、エヴァの作戦指揮を担当、シンジの保護者でもある。</p>
+                    </div>
+                </div>
+                <div class="character-card">
+                    <div class="character-img">
+                        <img src="/images/05.jpg" alt="赤木リツコ">
+                    </div>
+                    <div class="character-info">
+                        <h3>赤木リツコ</h3>
+                        <h4>声優：山口由里子</h4>
+                        <p>ネルフ技術開発部長、エヴァの研究・整備を担当、エヴァの秘密に深く関わる。</p>
+                    </div>
+                </div>
+                <div class="character-card">
+                    <div class="character-img">
+                        <img src="/images/08.jpg" alt="碇ゲンドウ">
+                    </div>
+                    <div class="character-info">
+                        <h3>碇ゲンドウ</h3>
+                        <h4>声優：立木文彦</h4>
+                        <p>ネルフ総司令、シンジの父親。冷酷非情、人類補完計画の実現のためなら手段を選ばない。</p>
+                    </div>
+                </div>
+                <div class="character-card">
+                    <div class="character-img">
+                        <img src="/images/06.jpg" alt="加持良治">
+                    </div>
+                    <div class="character-info">
+                        <h3>加持良治</h3>
+                        <h4>声優：山寺宏一</h4>
+                        <p>ネルフの特殊工作員、ミサトの元恋人。表向きは軽薄な性格だが、裏では独自の調査活動を行っている。</p>
+                    </div>
+                </div>
+                <div class="character-card">
+                    <div class="character-img">
+                        <img src="/images/07.jpg" alt="渚カヲル">
+                    </div>
+                    <div class="character-info">
+                        <h3>渚カヲル</h3>
+                        <h4>声優：石田彰</h4>
+                        <p>第五の適格者、エヴァンゲリオン弐号機のパイロット。謎めいた存在で、シンジに特別な関心を示す。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 制作人员 -->
+    <section class="staff" id="staff">
+        <div class="container">
+            <div class="section-title">
+                <h2>スタッフ</h2>
+            </div>
+            <div class="staff-grid">
+                <div class="staff-item">
+                    <h3>制作</h3>
+                    <p>GAINAX</p>
+                </div>
+                <div class="staff-item">
+                    <h3>原作・企画・监督</h3>
+                    <p>庵野秀明</p>
+                </div>
+                <div class="staff-item">
+                    <h3>角色设计</h3>
+                    <p>貞本義行</p>
+                    <p>山下いくと</p>
+                    <p>鶴巻和哉</p>
+                    <p>加藤浩</p>
+                </div>
+                <div class="staff-item">
+                    <h3>音乐</h3>
+                    <p>鷺巣詩郎</p>
+                </div>
+                <div class="staff-item">
+                    <h3>脚本</h3>
+                    <p>榎戸洋司</p>
+                    <p>樋口真嗣</p>
+                    <p>薩川昭夫</p>
+                </div>
+                <div class="staff-item">
+                    <h3>主要声優</h3>
+                    <p>碇シンジ：緒方恵美</p>
+                    <p>綾波レイ：林原めぐみ</p>
+                    <p>惣流・アスカ・ラングレー：宮村優子</p>
+                    <p>葛城ミサト：三石琴乃</p>
+                    <p>赤木リツコ：山口由里子</p>
+                    <p>碇ゲンドウ：立木文彦</p>
+                </div>
+                <div class="staff-item">
+                    <h3>其他声優</h3>
+                    <p>清川元夢</p>
+                    <p>岩永哲哉</p>
+                    <p>関智一</p>
+                    <p>岩男潤子</p>
+                    <p>山寺宏一</p>
+                    <p>子安武人</p>
+                    <p>結城比呂</p>
+                    <p>長沢美樹</p>
+                    <p>麦人</p>
+                    <p>摩砂雪</p>
+                    <p>石田彰</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 产品信息 -->
+    <section class="product-info" id="info">
+        <div class="container">
+            <div class="section-title">
+                <h2>商品情報</h2>
+            </div>
+            <div class="info-grid">
+                <div class="info-item">
+                    <h3>基本情報</h3>
+                    <p><strong>JAN:</strong> 4988003831011</p>
+                    <p><strong>管理番号:</strong> 428049253</p>
+                    <p><strong>発売日:</strong> 2015/08/26</p>
+                    <p><strong>定価:</strong> 41,800円</p>
+                    <p><strong>メーカー:</strong> キングレコード</p>
+                    <p><strong>型番:</strong> KIXA-90501</p>
+                </div>
+                <div class="info-item">
+                    <h3>セット内容</h3>
+                    <p>• ブックレット (約170ページ)</p>
+                    <p>• EVA友の会 (全14号)封入</p>
+                    <p>• 特別装丁仕様</p>
+                    <p>• BOXサイズ: 縦:179mm/ 横:141mm/ 幅:80mm</p>
+                </div>
+                <div class="info-item">
+                    <h3>視聴仕様</h3>
+                    <p>• 映像形式: 1080p HD</p>
+                    <p>• 音声形式: 5.1サラウンドを含む複数音声オプション</p>
+                    <p>• 字幕: バリアフリー字幕対応</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer>
+        <ul class="footer-links">
+            <li><a href="#home">ホーム</a></li>
+            <li><a href="#discs">ディスク内容</a></li>
+            <li><a href="#characters">キャラクター紹介</a></li>
+            <li><a href="#staff">スタッフ</a></li>
+            <li><a href="#info">商品情報</a></li>
+        </ul>
+        <p class="copyright">© 2025 GAINAX・khara / Project Eva. All Rights Reserved.</p>
+    </footer>
+
+    <!-- 浮动按钮 -->
+    <div class="floating-btn" id="back-to-top">
+        <span>↑</span>
+    </div>
+
+    <!-- 模态框 -->
+    <div class="modal" id="disc1-modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('disc1')">&times;</span>
+            <div class="disc-details">
+                <h2>DISC 1-5: TVシリーズ</h2>
+                <p>『新世紀エヴァンゲリオン』HDリマスター NEON GENESIS EVANGELION TVシリーズ全26話+ビデオフォーマット版4話 (第21話～第24話) (バリアフリー字幕入り)</p>
+                <h3>収録内容:</h3>
+                <ul>
+                    <li>第1話：使徒，襲来</li>
+                    <li>第2話：見知らぬ，天井</li>
+                    <li>第3話：鳴らない，電話</li>
+                    <li>第4話：雨，逃げ出した後</li>
+                    <li>第5話：レイ，心のむこうに</li>
+                    <li>第6話：決戦，第３新東京市</li>
+                    <li>第7話：人の造りしもの</li>
+                    <li>第8話：アスカ，来日</li>
+                    <li>第9話：瞬間，心，重ねて</li>
+                    <li>第10話：マグマダイバー</li>
+                    <li>第11話：静止した闇の中で</li>
+                    <li>第12話：奇跡の価値は</li>
+                    <li>第13話：使徒、侵入</li>
+                    <li>第14話：ゼーレ、魂の座</li>
+                    <li>第15話：嘘と沈黙</li>
+                    <li>第16話：死に至る病、そして</li>
+                    <li>第17話：四人目の適格者</li>
+                    <li>第18話：命の選択を</li>
+                    <li>第19話：男の戦い</li>
+                    <li>第20話：心のかたち 人のかたち</li>
+                    <li>第21話：ネルフ、誕生</li>
+                    <li>第22話：せめて、人間らしく</li>
+                    <li>第23話：涙</li>
+                    <li>第24話：最後のシ者</li>
+                    <li>第25話：終わる世界</li>
+                    <li>第26話：世界の中心でアイを叫んだけもの</li>
+                </ul>
+                <h3>特典内容:</h3>
+                <ul>
+                    <li>HDリマスター版本編</li>
+                    <li>バリアフリー字幕</li>
+                    <li>5.1サラウンド音声</li>
+                    <li>オーディオコメンタリー</li>
+                    <li>絵コンテ集</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 模态框功能
+        function openModal(discId) {
+            const modal = document.getElementById(`${discId}-modal`);
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(discId) {
+            const modal = document.getElementById(`${discId}-modal`);
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        // 点击模态框外部关闭
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        // 返回顶部按钮
+        const backToTopBtn = document.getElementById('back-to-top');
+        window.onscroll = function() {
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                backToTopBtn.style.display = 'flex';
+            } else {
+                backToTopBtn.style.display = 'none';
+            }
+        };
+
+        backToTopBtn.onclick = function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        };
+    </script>
+
+    <!-- 其他光盘模态框 -->
+    <div class="modal" id="disc6-modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('disc6')">&times;</span>
+            <div class="disc-details">
+                <h2>DISC 6: シト新生</h2>
+                <p>『新世紀エヴァンゲリオン劇場版 シト新生』HDマスター EVANGELION: DEATH AND REBIRTH</p>
+                <h3>収録内容:</h3>
+                <ul>
+                    <li>DEATH篇：TV版総集編、新規カット追加</li>
+                    <li>REBIRTH篇：劇場版前編、新作内容</li>
+                    <li>特典映像：予告編、メイキング等</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="disc7-modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('disc7')">&times;</span>
+            <div class="disc-details">
+                <h2>DISC 7: Air/まごころを、君に</h2>
+                <p>『新世紀エヴァンゲリオン劇場版 Air/まごころを、君に』HDマスター THE END OF EVANGELION</p>
+                <h3>収録内容:</h3>
+                <ul>
+                    <li>Air篇：劇場版後編、人類補完計画開始</li>
+                    <li>まごころを、君に篇：劇場版エンディング</li>
+                    <li>特典映像：予告編、メイキング等</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="disc8-modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('disc8')">&times;</span>
+            <div class="disc-details">
+                <h2>DISC 8: REVIVAL OF EVANGELION</h2>
+                <p>『新世紀エヴァンゲリオン劇場版 DEATH(TRUE)2/Air/まごころを、君に』HDマスター</p>
+                <h3>収録内容:</h3>
+                <ul>
+                    <li>DEATH(TRUE)2篇：TV版総集編、最終修正版</li>
+                    <li>Air篇：劇場版後編</li>
+                    <li>まごころを、君に篇：劇場版エンディング</li>
+                    <li>特典映像：予告編、メイキング等</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="disc9-modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('disc9')">&times;</span>
+            <div class="disc-details">
+                <h2>DISC 9: 映像特典</h2>
+                <h3>収録内容:</h3>
+                <ul>
+                    <li>OP/EDノンテロップ版</li>
+                    <li>キャラクター設定集</li>
+                    <li>メカニック設定集</li>
+                    <li>特別プロモーション集</li>
+                    <li>ミュージックビデオ集</li>
+                    <li>メイキング映像</li>
+                    <li>インタビュー特集</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="disc10-modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('disc10')">&times;</span>
+            <div class="disc-details">
+                <h2>DISC 10: AR/DB用定尺ラッシュビデオ</h2>
+                <h3>収録内容:</h3>
+                <ul>
+                    <li>複数話の未完成編集シーン</li>
+                    <li>「EVANGELION: REBIRTH」制作素材</li>
+                    <li>劇場版制作素材</li>
+                    <li>貴重なメイキング映像</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
